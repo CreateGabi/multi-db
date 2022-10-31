@@ -12,7 +12,7 @@ import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class MemberUI {
+public class BbsUI {
     private static JTextField t1;
     private static JTextField t2;
     private static JTextField t3;
@@ -24,22 +24,22 @@ public class MemberUI {
         f.setSize(500, 800);
         f.getContentPane().setLayout(null);
         
-        JLabel lblNewLabel_1 = new JLabel("아이디");
+        JLabel lblNewLabel_1 = new JLabel("제목");
         lblNewLabel_1.setFont(new Font("굴림", Font.BOLD, 30));
         lblNewLabel_1.setBounds(22, 255, 142, 40);
         f.getContentPane().add(lblNewLabel_1);
         
-        JLabel label = new JLabel("패스워드");
+        JLabel label = new JLabel("내용");
         label.setFont(new Font("굴림", Font.BOLD, 30));
         label.setBounds(22, 318, 142, 40);
         f.getContentPane().add(label);
         
-        JLabel label_1 = new JLabel("이름");
+        JLabel label_1 = new JLabel("작성자");
         label_1.setFont(new Font("굴림", Font.BOLD, 30));
         label_1.setBounds(22, 388, 142, 40);
         f.getContentPane().add(label_1);
         
-        JLabel label_2 = new JLabel("전화번호");
+        JLabel label_2 = new JLabel("넘버");
         label_2.setFont(new Font("굴림", Font.BOLD, 30));
         label_2.setBounds(22, 456, 142, 40);
         f.getContentPane().add(label_2);
@@ -68,66 +68,66 @@ public class MemberUI {
         t4.setBounds(176, 456, 260, 47);
         f.getContentPane().add(t4);
         
-        JButton btnNewButton = new JButton("회원탈퇴 처리");
+        JButton btnNewButton = new JButton("게시물 삭제 완료");
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		String id = t1.getText();
-        		MemberDAO dao = new MemberDAO();
+        		int id = Integer.parseInt(t4.getText());
+        		BbsDAO dao = new BbsDAO();
         		dao.delete(id);
         	}
         });
         btnNewButton.setBackground(Color.MAGENTA);
         btnNewButton.setFont(new Font("굴림", Font.BOLD, 45));
-        btnNewButton.setBounds(93, 599, 365, 67);
+        btnNewButton.setBounds(22, 599, 436, 67);
         f.getContentPane().add(btnNewButton);
         
-        JButton btnNewButton_1 = new JButton("회원가입화면");
+        JButton btnNewButton_1 = new JButton("나의 게시판");
         btnNewButton_1.setBackground(SystemColor.info);
         btnNewButton_1.setFont(new Font("굴림", Font.BOLD, 40));
         btnNewButton_1.setBounds(61, 25, 365, 185);
         f.getContentPane().add(btnNewButton_1);
         
-        JButton btnNewButton_2 = new JButton("회원가입 처리");
+        JButton btnNewButton_2 = new JButton("게시물 작성 완료");
         btnNewButton_2.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		// 1. t1, t2, t3, t4에 입력한 값을 가지고 와라
-        		String id = t1.getText();
-        		String pw = t2.getText();
-        		String name = t3.getText();
-        		String tel = t4.getText();
-        		// 2. db에 넣기 위해 MemberDAO를 만들어주고,
-        		MemberDAO dao = new MemberDAO();
+        		String title = t1.getText();
+        		String content = t2.getText();
+        		String writer = t3.getText();
+        		int id = Integer.parseInt(t4.getText());
+        		// 2. db에 넣기 위해 BbsDAO를 만들어주고,
+        		BbsDAO dao = new BbsDAO();
         		// 가방을 만들어서, 값들을 넣고, 가방을 전달해보자.
-        		MemberVO vo = new MemberVO();
+        		BbsVO vo = new BbsVO();
+        		vo.setTitle(title);
+        		vo.setContent(content);
+        		vo.setWriter(writer);
         		vo.setId(id);
-        		vo.setPw(pw);
-        		vo.setName(name);
-        		vo.setTel(tel);
-        		dao.insert(vo);
-//        		dao.insert(id, pw, name, tel);
         		// 3. 회원등록 기능을 쓰기 위해서 insert()메서드를 호출
+        		dao.insert(vo);
         	}
         });
         btnNewButton_2.setFont(new Font("Dialog", Font.BOLD, 45));
         btnNewButton_2.setBackground(Color.MAGENTA);
-        btnNewButton_2.setBounds(93, 530, 365, 67);
+        btnNewButton_2.setBounds(22, 530, 436, 67);
         f.getContentPane().add(btnNewButton_2);
         
-        JButton btnNewButton_3 = new JButton("회원검색 처리");
+        JButton btnNewButton_3 = new JButton("게시물 검색 완료");
         btnNewButton_3.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-        		String id = JOptionPane.showInputDialog("검색할 id입력");
-        		MemberDAO dao = new MemberDAO();
-        		MemberVO vo = dao.one(id);
-        		t1.setText(vo.getId());
-        		t2.setText(vo.getPw());
-        		t3.setText(vo.getName());
-        		t4.setText(vo.getTel());
+        		String s = JOptionPane.showInputDialog("검색할 id입력");
+        		int id = Integer.parseInt(s);
+        		BbsDAO dao = new BbsDAO();
+        		BbsVO vo = dao.one(id);
+        		t1.setText(vo.getTitle());
+        		t2.setText(vo.getContent());
+        		t3.setText(vo.getWriter());
+        		t4.setText(String.valueOf(vo.getId()));
         	}
         });
         btnNewButton_3.setFont(new Font("Dialog", Font.BOLD, 45));
         btnNewButton_3.setBackground(Color.MAGENTA);
-        btnNewButton_3.setBounds(93, 668, 365, 67);
+        btnNewButton_3.setBounds(22, 668, 436, 67);
         f.getContentPane().add(btnNewButton_3);
         f.setVisible(true);
     }

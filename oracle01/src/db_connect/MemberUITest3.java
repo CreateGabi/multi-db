@@ -2,7 +2,7 @@ package db_connect;
 
 import javax.swing.JOptionPane;
 
-public class MemberUITest {
+public class MemberUITest3 {
 
 	public static void main(String[] args) {
 		// 입력하는 화면을 ui파일에 만들자
@@ -17,6 +17,19 @@ public class MemberUITest {
 		// ==> MemberDAO 사용하면 됨
 		MemberDAO dao = new MemberDAO();
 //		dao.insert(id, pw, name, tel);
+		
+		// 보내는 쪽
+		// 1. 가방을 만든다.
+		MemberVO bag = new MemberVO();
+		
+		// 2. 가방에 입력한 값들을 넣자.(set()이용)
+		bag.setId(id);
+		bag.setPw(pw);
+		bag.setName(name);
+		bag.setTel(tel);
+		
+		// 3. 가방을 DAO에게 전달
+		dao.insert(bag);
 	}
 
 }
